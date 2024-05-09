@@ -3,6 +3,4 @@
   <div>chuj</div>
 </template>
 
-<script>
-
-</script>
+<script></script>
