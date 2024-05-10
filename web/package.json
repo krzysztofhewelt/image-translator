@@ -9,6 +9,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.2.0",
+    "@mdi/font": "^7.4.47",
     "@prettier/plugin-php": "^0.22.2",
     "axios": "^1.6.4",
     "eslint": "^9.2.0",
@@ -20,7 +21,10 @@
     "vite": "^5.0"
   },
   "dependencies": {
+    "@tanstack/vue-query": "^5.35.2",
+    "@vee-validate/yup": "^4.12.8",
     "@vitejs/plugin-vue": "^5.0.4",
+    "vee-validate": "^4.12.8",
     "vue": "^3.4.27",
     "vue-router": "^4.3.2",
     "vuetify": "^3.6.4"

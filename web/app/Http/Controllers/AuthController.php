@@ -24,9 +24,9 @@ class AuthController extends Controller
   public function register(RegisterRequest $request): JsonResponse
   {
     $user = $this->userModel->create([
-        'username' => $request->username,
-        'email' => $request->email,
-        'password' => bcrypt($request->password)
+      'username' => $request->username,
+      'email' => $request->email,
+      'password' => bcrypt($request->password),
     ]);
 
     $token = Auth::login($user);
@@ -94,7 +94,12 @@ class AuthController extends Controller
 
   public function logout(): JsonResponse
   {
-    Auth::logout();
+    try {
+      Auth::logout();
+    } catch (\Exception $exception) {
+      return response()->json(['errors' => $exception->getMessage()]);
+    }
+
     return response()->json(['status' => 'success']);
   }
 
@@ -107,7 +112,7 @@ class AuthController extends Controller
         ->header('Authorization', $token);
     } catch (\Exception $e) {
       return response()->json(
-        ['errors' => ['account' => 'Can not refresh token']],
+        ['errors' => 'Can not refresh token'],
         Response::HTTP_UNAUTHORIZED
       );
     }

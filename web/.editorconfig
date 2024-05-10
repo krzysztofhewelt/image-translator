@@ -1,6 +1,6 @@
 root = true
 
-[*.{js,vue}]
+[*.{ts,js,vue,php}]
 indent_style = space
 indent_size = 2
 end_of_line = lf

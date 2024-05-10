@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -64,11 +65,9 @@ class TranslateController extends Controller
       $output
     );
 
-    $output = array_map(function ($line) {
+    return array_map(function ($line) {
       return mb_convert_encoding($line, 'UTF-8', 'UTF-8');
-    }, $output);
-
-    return $output;
+    }, (array) $output);
   }
 
   public function translateTexts(
@@ -119,6 +118,8 @@ class TranslateController extends Controller
       );
     }
 
+    Gate::authorize('manage-translations', $translation);
+
     return response()->json($translation);
   }
 
@@ -131,6 +132,8 @@ class TranslateController extends Controller
         Response::HTTP_NOT_FOUND
       );
     }
+
+    Gate::authorize('manage-translations', $translation);
 
     $translation->update($request->validated());
 
@@ -149,6 +152,8 @@ class TranslateController extends Controller
         Response::HTTP_NOT_FOUND
       );
     }
+
+    Gate::authorize('manage-translations', $translation);
 
     $translation->delete();
 
@@ -171,6 +176,8 @@ class TranslateController extends Controller
         Response::HTTP_NOT_FOUND
       );
     }
+
+    Gate::authorize('manage-translations', $translation);
 
     $translation->public = true;
     $translation->save();

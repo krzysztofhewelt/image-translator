@@ -4,6 +4,8 @@ import vue from '@vitejs/plugin-vue';
 import { resolve } from 'path';
 
 export default defineConfig({
+  envPrefix: ['LOCALE_', 'BASE_'],
+
   plugins: [
     laravel({
       input: ['resources/css/app.css', 'resources/js/app.js'],
