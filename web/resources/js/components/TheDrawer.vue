@@ -2,9 +2,9 @@
   <v-navigation-drawer expand-on-hover rail>
     <v-list>
       <v-list-item
-        prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg"
-        subtitle="sandra_a88@gmailcom"
-        title="Sandra Adams"
+        prepend-icon="mdi-account-circle"
+        :subtitle="user.email"
+        :title="user.username"
       ></v-list-item>
     </v-list>
 
@@ -25,8 +25,20 @@
         prepend-icon="mdi-logout"
         title="Logout"
         link
+        @click="logout"
       ></v-list-item>
     </v-list>
   </v-navigation-drawer>
 </template>
-<script></script>
+<script setup lang="ts">
+import { deleteUserAndToken } from '@/utils/authentication.ts';
+import { getUserData } from '@/utils/authentication.ts';
+import router from '@/router';
+
+const logout = () => {
+  deleteUserAndToken();
+  router.push({ name: 'Login'})
+}
+
+const user = getUserData();
+</script>

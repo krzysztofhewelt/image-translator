@@ -14,7 +14,7 @@ class AuthController extends Controller
 {
   private User $userModel;
 
-  protected int $maxBadAttemptsPerMinute = 3;
+  protected int $maxBadAttemptsPerMinute = 5;
 
   public function __construct()
   {
@@ -34,11 +34,16 @@ class AuthController extends Controller
     return response()
       ->json(
         [
-          'success' => 'User created successfully',
+          'success' => 'success',
+          'token' => $token,
+          'user' => [
+            'id' => $user->id,
+            'username' => $user->username,
+            'email' => $user->email,
+          ],
         ],
         Response::HTTP_CREATED
-      )
-      ->header('Authorization', $token);
+      );
   }
 
   public function login(LoginRequest $request): JsonResponse
@@ -73,12 +78,13 @@ class AuthController extends Controller
       return response()
         ->json([
           'status' => 'success',
+          'token' => $token,
           'user' => [
             'id' => $user->id,
+            'username' => $user->username,
             'email' => $user->email,
           ],
-        ])
-        ->header('Authorization', $token);
+        ]);
     }
 
     $user->last_wrong_login = now();
@@ -108,8 +114,7 @@ class AuthController extends Controller
     try {
       $token = Auth::refresh();
       return response()
-        ->json(['status' => 'success'])
-        ->header('Authorization', $token);
+        ->json(['status' => 'success', 'token' => $token]);
     } catch (\Exception $e) {
       return response()->json(
         ['errors' => 'Can not refresh token'],

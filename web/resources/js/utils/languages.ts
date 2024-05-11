@@ -1,4 +1,6 @@
-export const languages = [
+import { Language } from '@/types/Language.ts';
+
+export const languages: Language[] = [
   { code: 'auto', name: 'auto'},
   { code: 'en', name: 'English' },
   { code: 'sq', name: 'Albanian' },

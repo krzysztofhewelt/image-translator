@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import LoginForm from '@/views/Authenticate/LoginForm.vue';
 import RegisterForm from '@/views/Authenticate/RegisterForm.vue';
-import TranslationList from '@/views/Translations/TranslationList.vue';
 import PassRoute from '@/components/PassRoute.vue';
 import TranslationEdit from '@/views/Translations/TranslationEdit.vue';
-import { loadToken, loadUser } from '@/utils/authentication.js';
+import { loadToken, loadUser } from '@/utils/authentication.ts';
 import ErrorNotFound from '@/views/ErrorNotFound.vue';
+import MainPage from '@/views/MainPage.vue';
 
 const routes = [
   {
@@ -21,7 +21,7 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: TranslationList,
+    component: MainPage,
   },
   {
     path: '/translations',
@@ -32,7 +32,7 @@ const routes = [
         path: 'edit/:id',
         name: 'TranslationsEdit',
         component: TranslationEdit,
-      }
+      },
     ],
   },
   {
@@ -48,7 +48,7 @@ const router = createRouter({
 });
 
 // pages guard
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _, next) => {
   const publicPages = ['/login', '/register'];
   const authRequired = !publicPages.includes(to.path);
 

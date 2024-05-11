@@ -4,10 +4,11 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#006abc">
+        <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 
         <title>Image translator</title>
 
-        @vite('resources/js/app.js')
+        @vite('resources/js/app.ts')
     </head>
     <body>
         <div id="app"></div>

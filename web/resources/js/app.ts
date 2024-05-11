@@ -7,9 +7,8 @@ import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 import { aliases, mdi } from 'vuetify/iconsets/mdi';
 import axiosSetup from '@/utils/axiosSetup';
-import router from '@/router/index.js';
-import { VueQueryPlugin } from '@tanstack/vue-query'
-
+import router from '@/router/index.ts';
+import { VueQueryPlugin } from '@tanstack/vue-query';
 
 const vuetify = createVuetify({
   components,

@@ -2,16 +2,29 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Storage;
+use App\Support\Path;
 
 class Translation extends Model
 {
   use HasFactory;
 
   protected $guarded = [];
+
+  protected function imageName(): Attribute
+  {
+    return Attribute::make(
+      get: fn(string $value) => new Path(
+        $value,
+        Storage::disk('images')->path($value)
+      )
+    )->withoutObjectCaching();
+  }
 
   public function user(): BelongsTo
   {
@@ -27,7 +40,7 @@ class Translation extends Model
 
   public function countUserTranslations(int $userId)
   {
-      return $this->where('user_id', $userId)->count();
+    return $this->where('user_id', $userId)->count();
   }
 
   public function searchUserTranslations(
