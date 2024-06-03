@@ -8,14 +8,14 @@ import {
   RegisterFormErrors,
 } from '@/types/forms/Auth.errors.ts';
 
-export const useLoginMutation = (onSuccess: (user: AuthRequest) => void) => {
+export const useLoginMutation = (onSuccess?: (user: AuthRequest) => void) => {
   return useMutation<AuthRequest, AxiosError<LoginFormErrors>, LoginForm>({
     mutationFn: (values: LoginForm) => login(values.email, values.password),
     onSuccess: onSuccess,
   });
 };
 
-export const useRegisterMutation = (onSuccess: (user: AuthRequest) => void) => {
+export const useRegisterMutation = (onSuccess?: (user: AuthRequest) => void) => {
   return useMutation<AuthRequest, AxiosError<RegisterFormErrors>, RegisterForm>(
     {
       mutationFn: (values: RegisterForm) =>

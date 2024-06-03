@@ -9,10 +9,17 @@
     max-width="500"
     v-model="confirmDeleteTranslationDialog"
     style="z-index: 2000"
+    :persistent="isPending"
   >
-    <v-card prepend-icon="mdi-translate" title="Delete translation">
+    <v-card
+      prepend-icon="mdi-translate"
+      title="Delete translation"
+      :loading="isPending"
+      :disabled="isPending"
+    >
       <v-card-text>
-        Are you sure to delete this translation? It cannot be undo.
+        Are you sure you want to delete this translation? This action cannot be
+        undone.
       </v-card-text>
 
       <v-divider></v-divider>
@@ -52,17 +59,15 @@ const props = defineProps({
   id: {
     type: Number,
     required: true,
-  }
+  },
 });
 
 const emit = defineEmits(['onSuccess']);
 
 const deleteTranslationSuccess = ref(false);
-const { mutate, isPending, isSuccess } = useDeleteTranslationMutation(
-  props.id
-);
+const { mutate, isPending, isSuccess } = useDeleteTranslationMutation(props.id);
 
-const handleDelete = async() => {
+const handleDelete = async () => {
   mutate();
 
   if (isSuccess) {

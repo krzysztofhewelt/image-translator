@@ -133,7 +133,7 @@ class TranslateController extends Controller
     $translation = $this->translationModel->find($translationId);
     if ($translation == null) {
       return response()->json(
-        ['error' => 'Translation does not exists!'],
+        ['errors' => ['id' => 'Translation does not exists!']],
         Response::HTTP_NOT_FOUND
       );
     }
@@ -210,7 +210,7 @@ class TranslateController extends Controller
     $translation = $this->translationModel->find($translationId);
     if ($translation == null) {
       return response()->json(
-        ['error' => 'Translation does not exists!'],
+        ['errors' => ['id' => 'Translation does not exists!']],
         Response::HTTP_NOT_FOUND
       );
     }
@@ -225,7 +225,7 @@ class TranslateController extends Controller
     $translation = $this->translationModel->find($translationId);
     if ($translation == null) {
       return response()->json(
-        ['error' => 'Translation does not exists!'],
+        ['errors' => ['id' => 'Translation does not exists!']],
         Response::HTTP_NOT_FOUND
       );
     }
@@ -245,7 +245,7 @@ class TranslateController extends Controller
     $translation = $this->translationModel->find($translationId);
     if ($translation == null) {
       return response()->json(
-        ['error' => 'Translation does not exists!'],
+        ['errors' => ['id' => 'Translation does not exists!']],
         Response::HTTP_NOT_FOUND
       );
     }
@@ -272,7 +272,7 @@ class TranslateController extends Controller
     $translation = $this->translationModel->find($translationId);
     if ($translation == null) {
       return response()->json(
-        ['error' => 'Translation does not exists!'],
+        ['errors' => ['id' => 'Translation does not exists!']],
         Response::HTTP_NOT_FOUND
       );
     }

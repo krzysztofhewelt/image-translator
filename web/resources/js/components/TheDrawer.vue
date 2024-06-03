@@ -37,8 +37,7 @@
   </v-navigation-drawer>
 </template>
 <script setup lang="ts">
-import { deleteUserAndToken } from '@/utils/authentication.ts';
-import { getUserData } from '@/utils/authentication.ts';
+import { deleteUserAndToken, getUserData } from '@/utils/authentication.ts';
 import router from '@/router';
 import ChangePasswordDialog from '@/components/ChangePasswordDialog.vue';
 

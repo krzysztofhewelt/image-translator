@@ -52,7 +52,7 @@ class Translation extends Model
       : $this->where('user_id', $userId)
         ->where('title', 'like', '%' . $searchString . '%')
         ->orderBy('updated_at', 'DESC')
-        ->paginate(1)
+        ->paginate(15)
         ->withQueryString();
   }
 }

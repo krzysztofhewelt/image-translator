@@ -125,12 +125,12 @@ import {
   useSearchTranslationByTitleQuery,
 } from '@/api/translations/hooks.ts';
 import _ from 'lodash';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import AddTranslationDialog from '@/components/AddTranslationDialog.vue';
 import DeleteTranslationConfirmDialog from '@/components/DeleteTranslationConfirmDialog.vue';
 import { useQueryClient } from '@tanstack/vue-query';
-import { TranslationRequest } from '@/types/requests/TranslationRequest.ts';
+import { UserTranslationsRequest } from '@/types/requests/TranslationRequest.ts';
 import { Translation } from '@/types/Translation.ts';
 
 const searchTitle = defineModel('searchTitle', { default: '' });
@@ -142,28 +142,20 @@ const { data, isFetching, refetch } = useSearchTranslationByTitleQuery(
   currentPage
 );
 
-const queryClient = useQueryClient();
-
 const { mutate } = usePublishTranslationMutation(() => {
   refetch();
 });
 
-const resetPage = _.debounce(() => {
-  currentPage.value = 1;
-  refetch();
-}, 500);
-
 const route = useRoute();
-const registeredWelcomeSnackBar = route.query.registeredSnackBar === 'true';
-
-onMounted(() => {
-  refetch();
-});
+const registeredWelcomeSnackBar = ref(
+  route.query.registeredSnackBar === 'true'
+);
+const queryClient = useQueryClient();
 
 const onDeleteSuccess = (id: number) => {
   queryClient.setQueryData(
     ['translationsList', searchTitle.value],
-    (oldData: TranslationRequest) => {
+    (oldData: UserTranslationsRequest) => {
       return {
         ...oldData,
         translations: oldData.translations.filter(
@@ -173,6 +165,15 @@ const onDeleteSuccess = (id: number) => {
     }
   );
 };
+
+const resetPage = _.debounce(() => {
+  currentPage.value = 1;
+  refetch();
+}, 500);
+
+onMounted(() => {
+  refetch();
+});
 
 const changePage = () => {
   refetch();

@@ -25,6 +25,10 @@
     Copied URL successfully
   </v-snackbar>
 
+  <v-snackbar v-model="publishedSuccessfully" :timeout="2000">
+    Published successfully
+  </v-snackbar>
+
   <v-container>
     <div class="rounded-xl bg-grey-lighten-4 overflow-hidden">
       <form @submit.prevent="handleUpdate">
@@ -177,7 +181,6 @@ const { mutate: mutateUpdate, isPending: isPendingUpdate } =
   });
 
 const {
-  data: dataReOCRAndTranslate,
   mutate: mutateReOCRAndTranslate,
   isPending: isPendingReOCRAndTranslate,
 } = useReOCRAndTranslateImageMutation((data) => {
@@ -187,15 +190,12 @@ const {
   });
 });
 
-const {
-  data: dataTranslateText,
-  mutate: mutateTranslateText,
-  isPending: isPendingTranslateText,
-} = useTranslateTextMutation((data) => {
-  setValues({
-    translatedText: data,
+const { mutate: mutateTranslateText, isPending: isPendingTranslateText } =
+  useTranslateTextMutation((data) => {
+    setValues({
+      translatedText: data.translated_text,
+    });
   });
-});
 
 const {
   mutate: mutatePublish,
@@ -203,11 +203,28 @@ const {
   isSuccess: isSuccessPublish,
   isPending: isLoadingPublish,
 } = usePublishTranslationMutation(() => {
-  console.log('test');
+  publishedSuccessfully.value = true;
 });
 
 const { setValues, values } = useForm<UpdateTranslateForm>({
   validationSchema: editTranslationSchema,
+});
+
+const originalText = useField('originalText');
+const translatedText = useField('translatedText');
+const title = useField('title');
+const sourceLang = useField('sourceLang');
+const targetLang = useField('targetLang');
+const published = ref(0);
+const showOriginalText = ref(false);
+const updatedSuccessfully = defineModel('updatedSuccessfully', {
+  default: false,
+});
+const copiedSuccessfully = defineModel('copiedSuccessfully', {
+  default: false,
+});
+const publishedSuccessfully = defineModel('publishedSuccessfully', {
+  default: false,
 });
 
 const translateTexts = () => {
@@ -230,39 +247,6 @@ const handlePublish = () => {
   mutatePublish(Number(route.params.id));
 };
 
-const originalText = useField('originalText');
-const translatedText = useField('translatedText');
-const title = useField('title');
-const sourceLang = useField('sourceLang');
-const targetLang = useField('targetLang');
-const published = ref(0);
-const showOriginalText = ref(false);
-const updatedSuccessfully = defineModel('updatedSuccessfully', {
-  default: false,
-});
-const copiedSuccessfully = defineModel('copiedSuccessfully', {
-  default: false,
-});
-
-// Watch for changes in the retrieved data and update the reactive variable
-watchEffect(() => {
-  if (isSuccess.value) {
-    setValues({
-      title: data.value?.title,
-      originalText: data.value?.original_text,
-      translatedText: data.value?.translated_text,
-      sourceLang: data.value?.source_lang,
-      targetLang: data.value?.target_lang,
-    });
-
-    published.value = Number(data.value?.public);
-  }
-
-  if (isSuccessPublish.value) {
-    published.value = Number(dataPublish.value);
-  }
-});
-
 const handleUpdate = () => {
   mutateUpdate({
     id: Number(route.params.id),
@@ -283,4 +267,23 @@ const copyTranslationURLToClipboard = async () => {
 const onDeleteSuccess = () => {
   router.push('/');
 };
+
+// Watch for changes in the retrieved data and update the reactive variable
+watchEffect(() => {
+  if (isSuccess.value) {
+    setValues({
+      title: data.value?.title,
+      originalText: data.value?.original_text,
+      translatedText: data.value?.translated_text,
+      sourceLang: data.value?.source_lang,
+      targetLang: data.value?.target_lang,
+    });
+
+    published.value = Number(data.value?.public);
+  }
+
+  if (isSuccessPublish.value) {
+    published.value = Number(dataPublish.value);
+  }
+});
 </script>

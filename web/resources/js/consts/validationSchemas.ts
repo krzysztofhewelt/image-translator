@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+import { languages } from '@/utils/languages';
 
 const email = yup.string().required().email();
 const password = yup
@@ -13,6 +14,18 @@ const password = yup
 const username = yup.string().required().min(3).max(50).notOneOf(['admin']);
 const title = yup.string().required().min(3).max(255);
 const translateText = yup.string().required().min(3).max(65535);
+const sourceLang = yup
+  .mixed<string>()
+  .required()
+  .test('isAvailableLanguage', 'This language is not supported', (value) => {
+    return !!languages.find((o) => o.tesseractCode === value);
+  });
+const targetLang = yup
+  .mixed<string>()
+  .required()
+  .test('isAvailableLanguage', 'This language is not supported', (value) => {
+    return value !== 'auto' && !!languages.find((o) => o.tesseractCode === value);
+  });
 
 export const loginSchema = yup.object().shape({
   email: email,
@@ -38,8 +51,8 @@ export const editTranslationSchema = yup.object().shape({
 
 export const translateTextSchema = yup.object().shape({
   originalText: translateText,
-  sourceText: yup.string().required(),
-  targetText: yup.string().required(),
+  sourceText: sourceLang,
+  targetText: targetLang,
 });
 
 export const addTranslationSchema = yup.object().shape({
@@ -72,6 +85,6 @@ export const addTranslationSchema = yup.object().shape({
         return value.size <= 10000000;
       }
     }),
-  sourceLang: yup.string().required(),
-  targetLang: yup.string().required(),
+  sourceLang: sourceLang,
+  targetLang: targetLang,
 });

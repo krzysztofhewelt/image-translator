@@ -55,7 +55,7 @@ class AuthController extends Controller
       )
     ) {
       return response()->json(
-        ['errors' => ['account' => trans('auth.throttle')]],
+        ['errors' => ['account' => [trans('auth.throttle')]]],
         Response::HTTP_TOO_MANY_REQUESTS
       );
     }
@@ -65,7 +65,7 @@ class AuthController extends Controller
 
     if ($user->isBanned()) {
       return response()->json(
-        ['errors' => ['account' => trans('auth.banned')]],
+        ['errors' => ['account' => [trans('auth.banned')]]],
         Response::HTTP_UNAUTHORIZED
       );
     }
@@ -93,7 +93,7 @@ class AuthController extends Controller
     RateLimiter::increment($request->ip());
 
     return response()->json(
-      ['errors' => ['account' => trans('auth.failed')]],
+      ['errors' => ['account' => [trans('auth.failed')]]],
       Response::HTTP_UNAUTHORIZED
     );
   }

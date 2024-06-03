@@ -85,7 +85,7 @@ const { handleSubmit } = useForm<LoginForm>({
   validationSchema: loginSchema,
 });
 
-const { mutateAsync, isPending, error } = useLoginMutation((data) => {
+const { mutate, isPending, error } = useLoginMutation((data) => {
   saveToken(data.token);
   saveUser({
     id: data.user.id,
@@ -101,6 +101,6 @@ const password = useField('password');
 const visible = ref(false);
 
 const handleLogin = handleSubmit((values) => {
-  mutateAsync({ email: values.email, password: values.password });
+  mutate({ email: values.email, password: values.password });
 });
 </script>

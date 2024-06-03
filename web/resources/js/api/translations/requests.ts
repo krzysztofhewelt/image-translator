@@ -1,13 +1,15 @@
 import axios from 'axios';
 import {
-  TranslationRequest,
+  ReOCRAndTranslateRequest,
+  TranslateTextRequest,
+  UserTranslationsRequest,
 } from '@/types/requests/TranslationRequest.ts';
 import { Translation } from '@/types/Translation.ts';
 
 export const searchTranslationByTitle = async (
   title: string,
   page: number
-): Promise<TranslationRequest> => {
+): Promise<UserTranslationsRequest> => {
   return await axios
     .get('/translates/search', {
       params: {
@@ -34,7 +36,7 @@ export const addTranslation = async (
   image: File,
   sourceLang: string,
   targetLang: string
-) => {
+): Promise<number> => {
   const formData = new FormData();
 
   formData.append('image', image);
@@ -74,16 +76,16 @@ export const deleteTranslation = async (id: number): Promise<null> => {
 export const publishTranslation = async (id: number): Promise<number> => {
   return await axios
     .post(`/translates/${id}/publish`)
-    .then((res) => res.data.public);
+    .then((res) => res.data.id);
 };
 
 export const reOCRAndTranslateImage = async (
   id: number,
   sourceLang: string,
   targetLang: string
-) => {
+): Promise<ReOCRAndTranslateRequest> => {
   return await axios
-    .post(`/translates/${id}/ocr-retranslate`, {
+    .post<ReOCRAndTranslateRequest>(`/translates/${id}/ocr-retranslate`, {
       source_lang: sourceLang,
       target_lang: targetLang,
     })
@@ -96,14 +98,14 @@ export const reTranslateImage = async (
   originalText: string,
   sourceLang: string,
   targetLang: string
-): Promise<string> => {
+): Promise<TranslateTextRequest> => {
   return await axios
-    .post(`/translates/text-translate`, {
+    .post<TranslateTextRequest>('/translates/text-translate', {
       original_text: originalText,
       source_lang: sourceLang,
       target_lang: targetLang,
     })
     .then((res) => {
-      return res.data.translated_text;
+      return res.data;
     });
 };

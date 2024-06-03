@@ -1,10 +1,27 @@
 <template>
   <slot name="activator" :onClick="onClick"></slot>
 
-  <v-dialog max-width="500" v-model="addTranslateDialog">
+  <v-dialog
+    max-width="500"
+    v-model="addTranslateDialog"
+    :persistent="isPending"
+  >
     <form @submit.prevent="handleAddTranslation">
-      <v-card prepend-icon="mdi-translate" title="Add new translation">
+      <v-card
+        prepend-icon="mdi-translate"
+        title="Add new translation"
+        :loading="isPending"
+        :disabled="isPending"
+      >
         <v-card-text>
+          <div
+            class="text-h6 text-center text-red-darken-2 font-weight-bold mb-2"
+            v-for="(value, index) in error?.response?.data.errors"
+            :key="index"
+          >
+            {{ value[0] }}
+          </div>
+
           <div>
             <v-file-input
               v-model="image.value.value"
@@ -35,7 +52,7 @@
             <v-autocomplete
               label="Target language"
               v-model="targetLang.value.value"
-              :items="languages"
+              :items="languages.filter((el) => el.code !== 'auto')"
               item-value="tesseractCode"
               item-text="name"
               item-title="name"
@@ -51,7 +68,6 @@
           <v-spacer></v-spacer>
 
           <v-btn
-            :loading="isPending"
             text="Close"
             variant="plain"
             @click="addTranslateDialog = false"
@@ -59,7 +75,6 @@
 
           <v-btn
             type="submit"
-            :loading="isPending"
             text="Translate"
             variant="elevated"
             color="green-darken-3"
@@ -88,8 +103,8 @@ const { handleSubmit } = useForm<AddTranslateForm>({
   validationSchema: addTranslationSchema,
 });
 
-const { mutate, isPending } = useAddTranslationMutation((id: number) => {
-  router.push({ name: 'TranslationsEdit', params: { id: id }})
+const { mutate, isPending, error } = useAddTranslationMutation((id) => {
+  router.push({ name: 'TranslationsEdit', params: { id: id } });
 });
 
 const image = useField<File>('image');
@@ -108,8 +123,6 @@ const previewImage = (e: File | File[]) => {
 };
 
 const handleAddTranslation = handleSubmit((values) => {
-  console.log(values);
-
   mutate({
     image: values.image,
     sourceLang: values.sourceLang,

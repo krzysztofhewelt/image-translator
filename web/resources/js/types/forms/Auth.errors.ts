@@ -1,6 +1,6 @@
 export interface LoginFormErrors {
   errors: {
-    account: string;
+    account: Array<string>;
     email: Array<string>;
     password: Array<string>;
   };
