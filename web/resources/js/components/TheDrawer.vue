@@ -14,13 +14,19 @@
       <v-list-item
         prepend-icon="mdi-home"
         title="Home"
-        :to="{ name: 'Home' }"
+        :to="{ name: 'MainPage' }"
       ></v-list-item>
-      <v-list-item
-        prepend-icon="mdi-account"
-        title="Shared with me"
-        value="shared"
-      ></v-list-item>
+      <ChangePasswordDialog>
+        <template v-slot:activator="{ onClick }">
+          <v-list-item
+            @click="onClick"
+            prepend-icon="mdi-account"
+            title="Change password"
+            link
+          >
+          </v-list-item>
+        </template>
+      </ChangePasswordDialog>
       <v-list-item
         prepend-icon="mdi-logout"
         title="Logout"
@@ -34,11 +40,12 @@
 import { deleteUserAndToken } from '@/utils/authentication.ts';
 import { getUserData } from '@/utils/authentication.ts';
 import router from '@/router';
+import ChangePasswordDialog from '@/components/ChangePasswordDialog.vue';
 
 const logout = () => {
   deleteUserAndToken();
-  router.push({ name: 'Login'})
-}
+  router.push({ name: 'Login' });
+};
 
 const user = getUserData();
 </script>

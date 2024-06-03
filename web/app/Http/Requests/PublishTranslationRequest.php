@@ -24,8 +24,10 @@ class PublishTranslationRequest extends FormRequest
    */
   public function rules(): array
   {
+    $rules = require app_path('Rules/ValidationRules.php');
+
     return [
-      'public' => 'required|boolean',
+      'public' => $rules['public'],
     ];
   }
 

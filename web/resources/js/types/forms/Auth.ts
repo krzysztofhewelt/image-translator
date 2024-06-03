@@ -8,3 +8,8 @@ export interface RegisterForm {
   email: string;
   password: string;
 }
+
+export interface ChangePasswordForm {
+  currentPassword: string;
+  newPassword: string;
+}

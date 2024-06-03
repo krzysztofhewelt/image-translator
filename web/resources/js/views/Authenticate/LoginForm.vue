@@ -9,8 +9,15 @@
         max-width="500px"
         rounded="lg"
       >
-        <div class="text-subtitle-1 text-medium-emphasis">Account</div>
+        <div
+          class="text-h6 text-center text-red-darken-2 font-weight-bold mb-2"
+          v-for="(value, index) in error?.response?.data.errors"
+          :key="index"
+        >
+          {{ value[0] }}
+        </div>
 
+        <div class="text-subtitle-1 text-medium-emphasis">Account</div>
         <v-text-field
           class="mb-2"
           v-model="email.value.value"
@@ -41,6 +48,7 @@
         ></v-text-field>
 
         <v-btn
+          :loading="isPending"
           type="submit"
           class="mb-8 font-weight-bold"
           color="blue"
@@ -51,7 +59,7 @@
           Log In
         </v-btn>
 
-        <v-card-text class="text-center">
+        <v-card-text class="text-center" v-if="!isPending">
           <router-link
             class="text-blue text-decoration-none"
             :to="{ name: 'Register' }"
@@ -73,21 +81,19 @@ import { LoginForm } from '@/types/forms/Auth.ts';
 import { saveToken, saveUser } from '@/utils/authentication.ts';
 import router from '@/router';
 
-// TODO: main page (list of translations, change self password, drawer with user info, search bar, upload new)
-// TODO: show translation
-
 const { handleSubmit } = useForm<LoginForm>({
   validationSchema: loginSchema,
 });
 
-const { mutate } = useLoginMutation((data) => {
+const { mutateAsync, isPending, error } = useLoginMutation((data) => {
   saveToken(data.token);
   saveUser({
     id: data.user.id,
     username: data.user.username,
     email: data.user.email,
   });
-  router.push({ name: 'Home' });
+
+  router.push('/');
 });
 
 const email = useField('email');
@@ -95,6 +101,6 @@ const password = useField('password');
 const visible = ref(false);
 
 const handleLogin = handleSubmit((values) => {
-  mutate({ email: values.email, password: values.password });
+  mutateAsync({ email: values.email, password: values.password });
 });
 </script>

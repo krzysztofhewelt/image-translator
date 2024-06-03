@@ -14,7 +14,10 @@ return new class extends Migration {
       $table->id();
       $table->string('title');
       $table->string('image_name');
+      $table->text('original_text');
       $table->text('translated_text');
+      $table->string('source_lang', 4);
+      $table->string('target_lang', 2);
       $table->boolean('public')->default(false);
       $table->timestamps();
       $table->unsignedBigInteger('user_id');

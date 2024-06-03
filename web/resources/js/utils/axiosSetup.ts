@@ -1,11 +1,21 @@
 import axios from 'axios';
 import router from '@/router/index.ts';
-import { loadToken, saveToken } from '@/utils/authentication.ts';
+import {
+  deleteUserAndToken,
+  loadToken,
+  saveToken,
+} from '@/utils/authentication.ts';
 
 export default function setup() {
   axios.defaults.baseURL = import.meta.env.BASE_API_URL;
-  axios.defaults.headers.common['Authorization'] = 'Bearer ' + loadToken();
   axios.defaults.headers.post['Content-Type'] = 'application/json';
+  axios.defaults.headers.common['Authorization'] = `Bearer ${loadToken()}`;
+
+  // beacuse axios.defaults.headers got null token on fresh instance...
+  axios.interceptors.request.use((config) => {
+    config.headers['Authorization'] = `Bearer ${loadToken()}`;
+    return config;
+  });
 
   axios.interceptors.response.use(
     (response) => {
@@ -21,19 +31,24 @@ export default function setup() {
         error.response.config.url !== '/login' &&
         error.response.config.url !== '/refresh'
       ) {
-        return axios.post('/refresh')
+        return axios
+          .post('/refresh')
           .then((res) => {
-            saveToken(res.data.token)
+            saveToken(res.data.token);
 
             error.config.headers = {
-              Authorization: `Bearer ${loadToken()}`
+              Authorization: `Bearer ${loadToken()}`,
             };
 
-            error.config.data = error.config.data ? JSON.parse(error.config.data) : '';
+            error.config.data = error.config.data
+              ? JSON.parse(error.config.data)
+              : '';
 
             return axios(error.config);
           })
           .catch((error) => {
+            deleteUserAndToken();
+
             if (error.response.status === 401) {
               return router.push('/login');
             }

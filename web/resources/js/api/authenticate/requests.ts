@@ -12,7 +12,7 @@ export const login = async (
     })
     .then((res) => {
       return res.data;
-    });
+    })
 };
 
 export const register = async (

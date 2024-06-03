@@ -27,20 +27,18 @@ class ChangeSelfPasswordRequest extends FormRequest
    */
   public function rules(): array
   {
+    $rules = require app_path('Rules/ValidationRules.php');
+
     return [
       'current_password' => [
         'required',
         function ($attribute, $value, $fail) {
           if (!Hash::check($value, User::find(Auth::id())->password)) {
-            $fail(trans('validation.current_password'));
+            $fail(trans('validation.currentPassword'));
           }
         },
       ],
-      'new_password' => [
-        'required',
-        'regex:/^.*(?=.{1,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).{8,255}$/',
-        'different:current_password',
-      ],
+      'new_password' => [...$rules['password'], 'different:current_password'],
     ];
   }
 

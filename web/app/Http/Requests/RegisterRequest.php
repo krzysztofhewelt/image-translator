@@ -24,13 +24,12 @@ class RegisterRequest extends FormRequest
    */
   public function rules(): array
   {
+    $rules = require app_path('Rules/ValidationRules.php');
+
     return [
-      'username' => 'required|min:3|max:50|unique:users,username',
-      'email' => 'required|email|unique:users,email',
-      'password' => [
-        'required',
-        'regex:/^.*(?=.{1,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).{8,255}$/',
-      ],
+      'username' => $rules['username'],
+      'email' => [...$rules['email'], 'unique:users,email'],
+      'password' => $rules['password'],
     ];
   }
 

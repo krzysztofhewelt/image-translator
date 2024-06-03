@@ -21,7 +21,7 @@ class Translation extends Model
     return Attribute::make(
       get: fn(string $value) => new Path(
         $value,
-        Storage::disk('images')->path($value)
+        Storage::disk('public')->url($value)
       )
     )->withoutObjectCaching();
   }
@@ -50,9 +50,9 @@ class Translation extends Model
     return $searchString == null
       ? $this->getUserTranslations($userId)
       : $this->where('user_id', $userId)
-        ?->where('title', 'like', '%' . $searchString . '%')
+        ->where('title', 'like', '%' . $searchString . '%')
         ->orderBy('updated_at', 'DESC')
-        ->paginate(15)
+        ->paginate(1)
         ->withQueryString();
   }
 }

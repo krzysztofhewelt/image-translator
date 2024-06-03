@@ -24,5 +24,5 @@ const vuetify = createVuetify({
 
 axiosSetup();
 
-const app = createApp(App).use(VueQueryPlugin).use(vuetify).use(router);
+const app = createApp(App).use(router).use(VueQueryPlugin).use(vuetify);
 app.mount('#app');

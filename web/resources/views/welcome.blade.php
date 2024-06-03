@@ -5,8 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#006abc">
         <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
-        <title>Image translator</title>
+      <title>Image translator</title>
 
         @vite('resources/js/app.ts')
     </head>

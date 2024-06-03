@@ -14,9 +14,12 @@ Route::controller(AuthController::class)->group(function () {
 
 Route::middleware(['auth:api'])->group(function () {
   Route::controller(TranslateController::class)
-    ->prefix('images')
+    ->prefix('translates')
     ->group(function () {
       Route::post('translate', 'translateImage');
+      Route::post('{id}/ocr-retranslate', 'runOCRAndReTranslate');
+      Route::post('text-translate', 'runTranslateText');
+
       Route::get('search', 'searchTranslationsByTitle');
       Route::get('{id}/show', 'show');
       Route::post('{id}/update', 'update');

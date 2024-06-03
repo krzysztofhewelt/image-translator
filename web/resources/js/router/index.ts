@@ -5,7 +5,7 @@ import PassRoute from '@/components/PassRoute.vue';
 import TranslationEdit from '@/views/Translations/TranslationEdit.vue';
 import { loadToken, loadUser } from '@/utils/authentication.ts';
 import ErrorNotFound from '@/views/ErrorNotFound.vue';
-import MainPage from '@/views/MainPage.vue';
+import TranslationList from '@/views/Translations/TranslationList.vue';
 
 const routes = [
   {
@@ -20,8 +20,8 @@ const routes = [
   },
   {
     path: '/',
-    name: 'Home',
-    component: MainPage,
+    name: 'MainPage',
+    component: TranslationList
   },
   {
     path: '/translations',
@@ -37,7 +37,7 @@ const routes = [
   },
   {
     path: '/:pathMatch(.*)*',
-    name: 'Error404',
+    name: 'ErrorNotFound',
     component: ErrorNotFound,
   },
 ];

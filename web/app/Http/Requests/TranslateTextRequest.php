@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Symfony\Component\HttpFoundation\Response;
 
-class ImageTranslationRequest extends FormRequest
+class TranslateTextRequest extends FormRequest
 {
   /**
    * Determine if the user is authorized to make this request.
@@ -24,11 +24,12 @@ class ImageTranslationRequest extends FormRequest
    */
   public function rules(): array
   {
-    // max image size: 10 MB
+    $rules = require app_path('Rules/ValidationRules.php');
+
     return [
-      'image' => 'required|image|max:10000',
-      'source' => ['required', 'regex:/^(auto|.{2})$/'],
-      'target' => 'required|string|min:2',
+      'original_text' => $rules['original_text'],
+      'source_lang' => $rules['source_lang'],
+      'target_lang' => $rules['target_lang'],
     ];
   }
 

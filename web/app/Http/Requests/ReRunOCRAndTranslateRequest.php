@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Symfony\Component\HttpFoundation\Response;
 
-class LoginRequest extends FormRequest
+class ReRunOCRAndTranslateRequest extends FormRequest
 {
   /**
    * Determine if the user is authorized to make this request.
@@ -27,8 +27,8 @@ class LoginRequest extends FormRequest
     $rules = require app_path('Rules/ValidationRules.php');
 
     return [
-      'email' => [...$rules['email'], 'exists:users,email'],
-      'password' => $rules['password'],
+      'source_lang' => $rules['source_lang'],
+      'target_lang' => $rules['target_lang'],
     ];
   }
 

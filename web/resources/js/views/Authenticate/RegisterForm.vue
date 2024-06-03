@@ -9,8 +9,15 @@
         max-width="500"
         rounded="lg"
       >
-        <div class="text-subtitle-1 text-medium-emphasis">Username</div>
+        <div
+          class="text-h6 text-center text-red-darken-2 font-weight-bold mb-2"
+          v-for="(value, index) in error?.response?.data.errors"
+          :key="index"
+        >
+          {{ value[0] }}
+        </div>
 
+        <div class="text-subtitle-1 text-medium-emphasis">Username</div>
         <v-text-field
           class="mb-2"
           v-model="username.value.value"
@@ -22,7 +29,6 @@
         ></v-text-field>
 
         <div class="text-subtitle-1 text-medium-emphasis">Email</div>
-
         <v-text-field
           class="mb-2"
           v-model="email.value.value"
@@ -90,14 +96,15 @@ const { handleSubmit } = useForm<RegisterForm>({
   validationSchema: registerSchema,
 });
 
-const { mutate } = useRegisterMutation((data) => {
+const { mutate, error } = useRegisterMutation((data) => {
   saveToken(data.token);
   saveUser({
     id: data.user.id,
     username: data.user.username,
     email: data.user.email,
   });
-  router.push({ name: 'Home' });
+
+  router.push({ name: 'MainPage', query: { registeredSnackBar: 'true' } });
 });
 
 const username = useField('username');

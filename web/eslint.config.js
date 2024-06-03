@@ -7,8 +7,9 @@ import eslintConfigPrettier from 'eslint-config-prettier';
 export default [
   {
     languageOptions: {
-      globals: { ...globals.browser, ...globals.node }
+      globals: { ...globals.browser, ...globals.node },
     },
+    files: ['*.ts', '*.vue'],
     rules: {
       'no-console': 'error',
     },
