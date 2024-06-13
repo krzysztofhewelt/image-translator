@@ -1,6 +1,5 @@
 <h1 align="center">
-    <img src="screenshots/logo.png" alt="logo"> <br>
-    Image translator
+    <img src="screenshots/logo.png" alt="logo">
 </h1> 
 
 <p align="center">
