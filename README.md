@@ -17,7 +17,7 @@ Translate text from picture. Save translation and share it with others. Powered 
 * save translation
 * edit recognised and translated text
 * share translation with other users
-* supports 43 languages: English, Polish, German, Chinese, Russian, [more languages](https://libretranslate.com/languages)\
+* supports 43 languages: English, Polish, German, Chinese, Russian, [more languages](https://libretranslate.com/languages)
 
 # Used technologies and tools
 * Python 3.11
