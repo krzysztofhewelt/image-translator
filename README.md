@@ -4,9 +4,10 @@
 
 <p align="center">
     <a href="#features">Features</a>&nbsp;&nbsp; | &nbsp;
-    <a href="#getting-started">Getting started</a>&nbsp; | &nbsp;
     <a href="#used-technologies-and-tools">Technologies and tools</a>&nbsp; | &nbsp; 
-    <a href="#screenshots">Screenshots</a>
+    <a href="#getting-started">Getting started</a>&nbsp; | &nbsp;
+    <a href="#screenshots">Screenshots</a>&nbsp; | &nbsp;
+    <a href="#example-translations">Example translations</a>
 </p>
 
 Translate text from picture. Save translation and share it with others. Powered by Google Tesseract and LibreTranslate.
@@ -16,7 +17,22 @@ Translate text from picture. Save translation and share it with others. Powered 
 * save translation
 * edit recognised and translated text
 * share translation with other users
-* supports 43 languages: English, Polish, German, Chinese, Russian, [more languages](https://libretranslate.com/languages)
+* supports 43 languages: English, Polish, German, Chinese, Russian, [more languages](https://libretranslate.com/languages)\
+
+# Used technologies and tools
+* Python 3.11
+* PHP 8.2
+* TypeScript 5.4.5
+* Tesseract and py-tesseract
+* LibreTranslate 1.6.1
+* Backend: Laravel framework 11.7.0
+* Frontend: Vue 3 with packages
+    * tanstack-query (react-query)
+    * vuetify
+    * yup and vee-validate
+    * axios
+    * eslint and prettier
+    * vite
 
 # Getting started
 1. Clone this repo
@@ -76,17 +92,10 @@ Translate text from picture. Save translation and share it with others. Powered 
 ![img_2.png](screenshots/img_2.png)
 ![img_3.png](screenshots/img_3.png)
 
-# Used technologies and tools
-* Python 3.11
-* PHP 8.2
-* TypeScript 5.4.5
-* Tesseract and py-tesseract
-* LibreTranslate 1.6.1
-* Backend: Laravel framework 11.7.0
-* Frontend: Vue 3 with packages
-  * tanstack-query (react-query)
-  * vuetify
-  * yup and vee-validate
-  * axios
-  * eslint and prettier
-  * vite
+# Example translations
+![img_1.png](screenshots/example-translations/img_1.png)
+![img_2.png](screenshots/example-translations/img_2.png)
+![img_3.png](screenshots/example-translations/img_3.png)
+![img_4.png](screenshots/example-translations/img_4.png)
+![img_5.png](screenshots/example-translations/img_5.png)
+![img.png](screenshots/example-translations/img.png)
